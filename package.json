@@ -1,0 +1,83 @@
+{
+  "name": "vscode-extension-test",
+  "displayName": "vscode-extension-test",
+  "description": "eee",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.88.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "vscode-extension-test.helloWorld",
+        "title": "Hello World",
+        "icon": {
+          "light": "resources/light/hello-world.svg",
+          "dark": "resources/dark/hello-world.svg"
+        }
+      }
+    ],
+    "views": {
+      "packages": [
+        {
+          "location": "panel",
+          "id": "packages-explorer",
+          "title": "package explorer",
+          "name": ""
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "packages",
+          "title": "package explorer",
+          "icon": "resources/package.svg"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "vscode-extension-test.helloWorld",
+          "when": "view == packages-explorer",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "vscode-extension-test.helloWorld",
+          "when": "view == packages-explorer",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.88.0",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
+    "@vscode/test-cli": "^0.0.8",
+    "@vscode/test-electron": "^2.3.9",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "path-browserify": "^1.0.1"
+  }
+}
