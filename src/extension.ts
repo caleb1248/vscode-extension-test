@@ -15,18 +15,24 @@ export function activate(context: vscode.ExtensionContext) {
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with registerCommand
   // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand(
-    'vscode-extension-test.helloWorld',
-    () => {
+  context.subscriptions.push(
+    vscode.commands.registerCommand('vscode-extension-test.helloWorld', () => {
       // The code you place here will be executed every time your command is executed
       // Display a message box to the user
       vscode.window.showInformationMessage(
         'Hello World from vscode-extension-test!'
       );
-    }
+    })
   );
 
-  context.subscriptions.push(disposable);
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      'vscode-extension-test.installDependency',
+      (...args) => {
+        vscode.window.showInformationMessage(JSON.stringify(args));
+      }
+    )
+  );
   context.subscriptions.push(
     vscode.window.registerTreeDataProvider<TreeChild>('packages-explorer', {
       getTreeItem: (element) => {
@@ -43,6 +49,7 @@ export function activate(context: vscode.ExtensionContext) {
           return {
             label: 'Dependencies',
             collapsibleState: vscode.TreeItemCollapsibleState.Expanded,
+            contextValue: 'dependencyDropdown',
           };
         }
 
@@ -50,6 +57,7 @@ export function activate(context: vscode.ExtensionContext) {
           return {
             label: 'DevDependencies',
             collapsibleState: vscode.TreeItemCollapsibleState.Expanded,
+            contextValue: 'devDependencyDropdown',
           };
         }
 

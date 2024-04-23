@@ -20,6 +20,10 @@
           "light": "resources/light/hello-world.svg",
           "dark": "resources/dark/hello-world.svg"
         }
+      },
+      {
+        "command": "vscode-extension-test.installDependency",
+        "title": "Install Dependency"
       }
     ],
     "views": {
@@ -54,6 +58,11 @@
           "command": "vscode-extension-test.helloWorld",
           "when": "view == packages-explorer",
           "group": "inline"
+        },
+        {
+          "command": "vscode-extension-test.installDependency",
+          "group": "inline",
+          "when": "view == packages-explorer && (viewContainer == devDependencyDropdown || viewContainer == dependencyDropdown)"
         }
       ]
     }
