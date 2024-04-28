@@ -14,39 +14,47 @@
   "contributes": {
     "commands": [
       {
+        "command": "vscode-extension-test.installDependency",
+        "title": "Install Dependency",
+        "icon": {
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
+        }
+      },
+      {
         "command": "vscode-extension-test.helloWorld",
         "title": "Hello World",
         "icon": {
           "light": "resources/light/hello-world.svg",
           "dark": "resources/dark/hello-world.svg"
         }
-      },
-      {
-        "command": "vscode-extension-test.installDependency",
-        "title": "Install Dependency"
       }
     ],
     "views": {
-      "packages": [
+      "packages-explorer": [
         {
-          "location": "panel",
           "id": "packages-explorer",
-          "title": "package explorer",
-          "name": ""
+          "title": "NPM Packages",
+          "name": "NPM Packages"
         }
       ]
     },
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "packages",
-          "title": "package explorer",
-          "icon": "resources/package.svg"
+          "id": "packages-explorer",
+          "title": "NPM Packages",
+          "icon": "resources/light/hello-world.svg"
         }
       ]
     },
     "menus": {
       "view/title": [
+        {
+          "command": "vscode-extension-test.installDependency",
+          "group": "navigation",
+          "when": "view == packages-explorer"
+        },
         {
           "command": "vscode-extension-test.helloWorld",
           "when": "view == packages-explorer",
@@ -58,11 +66,6 @@
           "command": "vscode-extension-test.helloWorld",
           "when": "view == packages-explorer",
           "group": "inline"
-        },
-        {
-          "command": "vscode-extension-test.installDependency",
-          "group": "inline",
-          "when": "view == packages-explorer && (viewContainer == devDependencyDropdown || viewContainer == dependencyDropdown)"
         }
       ]
     }
@@ -78,6 +81,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
+    "@types/path-browserify": "^1.0.2",
     "@types/vscode": "^1.88.0",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
@@ -87,6 +91,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "get-latest-version": "^5.1.0",
     "path-browserify": "^1.0.1"
   }
 }
