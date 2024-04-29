@@ -141,7 +141,7 @@ class TarReader {
   }
 }
 
-const reader = new TarReader();
+let reader: TarReader;
 
 function file(name: string, fullPath: string): FolderFile {
   return { name, fullPath, type: 'File' };
@@ -152,9 +152,13 @@ function folder(name: string): Folder {
 }
 
 function fileListToTree() {
-  const nameList = reader.fileInfo
-    .filter(({ type }) => type !== 'directory')
-    .map(({ name }) => name.replace('package/', ''));
+  const nameList: string[] = [];
+
+  for (const info of reader.fileInfo) {
+    if (info.type === 'directory') {
+      nameList.push(info.name.replace('package/', ''));
+    }
+  }
 
   const root = folder('');
 
@@ -179,6 +183,7 @@ function fileListToTree() {
 }
 
 self.addEventListener('message', async (e) => {
+  reader = new TarReader();
   const { url } = e.data;
   const tgz = await fetchPackage(url);
   reader.readArrayBuffer(tgz);

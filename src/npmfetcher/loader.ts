@@ -1,9 +1,9 @@
 // @ts-ignore
 
-import path from "path-browserify";
-import type { Folder } from "./fileTypes";
-
-const worker = new Worker(path.join(__dirname, "worker.js");
+import path from 'path-browserify';
+import type { Folder } from './fileTypes';
+import { Worker } from 'worker_threads';
+const worker = new Worker(path.join(__dirname, 'worker.js'));
 
 interface Options {
   version?: number;
@@ -24,11 +24,11 @@ interface FileData {
 // Data argument used for TypeScript purposes
 
 function isTree(type: string, data: any): data is Folder {
-  return type === "tree";
+  return type === 'tree';
 }
 
 function isFile(type: string, data: any): data is FileData {
-  return type === "file";
+  return type === 'file';
 }
 
 export default async function loadPackage(
@@ -37,21 +37,23 @@ export default async function loadPackage(
 ) {
   options.onError = options.onError || console.error;
   const { version } = options;
-  const worker: Worker = new fileLoader();
-  worker.onmessage = (
-    e: MessageEvent<{
-      type: string;
-      data: any;
-    }>
-  ) => {
-    const { type, data } = e.data;
+  worker.addListener(
+    'message',
+    (
+      e: MessageEvent<{
+        type: string;
+        data: any;
+      }>
+    ) => {
+      const { type, data } = e.data;
 
-    if (!type || !data) throw "No data provided";
+      if (!type || !data) throw 'No data provided';
 
-    if (isTree(type, data)) options.onTree(data);
-    if (isFile(type, data)) options.onFile(data);
-    if (type == "error") options.onError!(data);
-  };
+      if (isTree(type, data)) options.onTree(data);
+      if (isFile(type, data)) options.onFile(data);
+      if (type == 'error') options.onError!(data);
+    }
+  );
 
   worker.postMessage({ name, version });
 }

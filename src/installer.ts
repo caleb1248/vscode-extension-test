@@ -1,6 +1,6 @@
 import getLatestVersion from 'get-latest-version';
 import * as vscode from 'vscode';
-import * as path from 'path-browserify';
+import * as path from 'path';
 
 const installDependency = async (dependencyName?: string, version?: string) => {
   const depName =
